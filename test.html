@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderne Webseite</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function toggleMenu() {
+            const tabs = document.querySelector('.tabs');
+            tabs.style.display = tabs.style.display === 'flex' ? 'none' : 'flex';
+        }
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <div class="menu" onclick="toggleMenu()">Menü ☰</div>
+    <div class="tabs">
+        <button class="tab-button" onclick="showTab('news')">News</button>
+        <button class="tab-button" onclick="showTab('storyboard')">Storyboard</button>
+        <button class="tab-button" onclick="showTab('characters')">Character Datenbank</button>
+    </div>
+
+    <div id="news" class="tab-content active">
+        <h2>Aktuelle News</h2>
+        <p>Hier erscheinen die neuesten Updates und Ankündigungen.</p>
+    </div>
+
+    <div id="storyboard" class="tab-content">
+        <h2>Storyboard</h2>
+        <p>Hier kannst du deine Storyboards verwalten und erstellen.</p>
+    </div>
+
+    <div id="characters" class="tab-content">
+        <h2>Character Datenbank</h2>
+        <p>Hier findest du alle Charaktere mit ihren detaillierten Informationen.</p>
+    </div>
+</body>
+</html>

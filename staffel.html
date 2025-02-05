@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staffel 1</title>
+    <script>
+        async function fetchEpisodeData() {
+            // Hier sollten Sie eine tatsächliche API oder einen Serveranruf implementieren,
+            // um die Daten aus Ihrer SQLite-Datenbank abzurufen.
+            const data = [
+                { season: 1, episode: 1, word_link: ['szene1.html', 'szene2.html'] },
+                // Weitere Episoden hier hinzufügen
+            ];
+
+            return data;
+        }
+
+        async function loadEpisodes() {
+            const episodeData = await fetchEpisodeData();
+            const episodeDiv = document.getElementById("episodes");
+
+            episodeDiv.innerHTML = "<h1>Staffel 1</h1>";
+
+            episodeData.forEach(item => {
+                if (item.season === 1) {
+                    episodeDiv.innerHTML += `<button class="btn" onclick="window.location.href='folge${item.episode}.html'">📺 Folge ${item.episode} ansehen</button><br/>`;
+                    item.word_link.forEach(link => {
+                        episodeDiv.innerHTML += `<a href="${link}" target="_blank">${link}</a><br/>`;
+                    });
+                }
+            });
+
+            episodeDiv.innerHTML += '<button class="btn" onclick="history.back()">Zurück</button>';
+        }
+
+        window.onload = loadEpisodes;
+    </script>
+</head>
+<body>
+    <div id="episodes"></div>
+</body>
+</html>

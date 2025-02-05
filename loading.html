@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-grow: 1;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: bold;
+            letter-spacing: -5px;
+            text-transform: uppercase;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .logo .f,
+        .logo .p {
+            display: inline-block;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .logo .p {
+            animation-delay: 0.3s;
+        }
+
+        .studio-text {
+            font-size: 1rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1.5s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        // Nach 50 Sekunden zur Zielseite weiterleiten
+        setTimeout(function() {
+            window.location.href = 'https://fp-anime-app-web.onrender.com/';
+        }, 0); // 50000 Millisekunden = 50 Sekunden
+    </script>
+</head>
+<body>
+    <div class="logo-container">
+        <div class="logo">
+            <span class="f">F</span><span class="p">P</span>
+        </div>
+        <div class="studio-text">Studio</div>
+    </div>
+</body>
+</html>
