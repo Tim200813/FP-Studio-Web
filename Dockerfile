@@ -11,7 +11,7 @@ RUN echo "DirectoryIndex index.php index.html" > /etc/apache2/mods-enabled/dir.c
 COPY . /var/www/html/
 
 # Setze den Arbeitsordner
-WORKDIR /var/www/html/
+WORKDIR /var/www/html
 
 # Öffne Port 80
 EXPOSE 80
