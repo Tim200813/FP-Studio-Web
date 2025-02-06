@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_pgsql
 
@@ -19,11 +20,18 @@ WORKDIR /var/www/html
 # Kopiere Composer aus offiziellem Image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Kopiere Projektdateien in den Container
+# Kopiere den Code in den Container
 COPY . .
 
-# Installiere Composer-Abhängigkeiten
-RUN composer install --no-dev --optimize-autoloader
+# Installiere Composer-Abhängigkeiten (mit Fehlerhandling)
+RUN composer install --no-dev --optimize-autoloader || (sleep 5 && composer install --no-dev --optimize-autoloader)
+
+# Setze Dateiberechtigungen für Apache
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Exponiere den HTTP-Port
+EXPOSE 80
 
 # Starte den Apache-Server
 CMD ["apache2-foreground"]
