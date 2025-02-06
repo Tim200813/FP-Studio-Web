@@ -10,3 +10,9 @@ strich
 auf der anderen seite: über discord (button zu einem discord server)
 
 auf dem handy ist der strich nicht vertikal sondern horianzantal und die button sind untereinander
+
+---------------------------------------------------------------------------
+
+git add .
+git commit -m "Fix: Install PDO drivers for MySQL and PostgreSQL"
+git push origin main

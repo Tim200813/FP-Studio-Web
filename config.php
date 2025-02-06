@@ -1,11 +1,13 @@
 <?php
 // config.php
 
-$db_host = 'db.rrxjwcgrhlevwdybksgv.supabase.co';
-$db_port = '5432';
-$db_name = 'postgres';
-$db_user = 'postgres';
-$db_password = 'TKKGfreunde1';
+
+
+$db_host = getenv('DB_HOST');
+$db_port = getenv('DB_PORT');
+$db_name = getenv('DB_NAME');
+$db_user = getenv('DB_USER');
+$db_password = getenv('DB_PASSWORD');
 
 // Datenbankverbindung herstellen
 try {
