@@ -24,7 +24,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 
 # Installiere Composer-Abhängigkeiten (mit Fehlerhandling)
-RUN composer install --no-dev --optimize-autoloader || (sleep 5 && composer install --no-dev --optimize-autoloader)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --verbose
+
 
 # Setze Dateiberechtigungen für Apache
 RUN chown -R www-data:www-data /var/www/html \
