@@ -1,16 +1,21 @@
-# Verwende das offizielle PHP-Image mit Apache
+# Verwende das PHP-Image mit Apache
 FROM php:8.1-apache
 
-# Setze ServerName für Apache (verhindert die Fehlermeldung)
+# Installiere notwendige PHP-Erweiterungen (MySQL, PostgreSQL und andere)
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
+
+# Setze ServerName für Apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Setze index.php als Standard-Startseite
-RUN echo "DirectoryIndex index.php index.html" > /etc/apache2/mods-enabled/dir.conf
+# Setze index.php als Standard
+RUN echo "DirectoryIndex index.php" > /etc/apache2/mods-enabled/dir.conf
 
-# Kopiere alle Dateien in das Apache-Verzeichnis
+# Kopiere Projektdateien in den Webserver-Ordner
 COPY . /var/www/html/
 
-# Setze den Arbeitsordner
+# Setze das Arbeitsverzeichnis
 WORKDIR /var/www/html
 
 # Öffne Port 80
