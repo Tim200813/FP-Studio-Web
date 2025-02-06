@@ -1,25 +1,24 @@
-# Verwende das PHP-Image mit Apache
-FROM php:8.1-apache
+FROM php:8.1-cli
 
-# Installiere notwendige PHP-Erweiterungen (MySQL, PostgreSQL und andere)
+# Installiere systemweite Abhängigkeiten
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
+    curl \
+    unzip \
+    git
 
-# Setze ServerName für Apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
-# Setze index.php als Standard
-RUN echo "DirectoryIndex index.php" > /etc/apache2/mods-enabled/dir.conf
-
-# Kopiere Projektdateien in den Webserver-Ordner
-COPY . /var/www/html/
+# Installiere Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Setze das Arbeitsverzeichnis
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Öffne Port 80
-EXPOSE 80
+# Kopiere die Composer-Dateien
+COPY composer.json composer.lock ./
 
-# Starte den Apache-Server
-CMD ["apache2-foreground"]
+# Installiere PHP-Abhängigkeiten
+RUN composer install
+
+# Kopiere den Rest des Codes
+COPY . .
+
+CMD ["php", "index.php"]
