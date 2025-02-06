@@ -1,24 +1,23 @@
-FROM php:8.1-cli
+# Beispiel Dockerfile
+FROM php:8.0-apache
 
-# Installiere systemweite Abhängigkeiten
+# Installiere die erforderlichen Pakete
 RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    git
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
-# Installiere Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Aktiviere das Apache-Modul
+RUN a2enmod rewrite
 
 # Setze das Arbeitsverzeichnis
-WORKDIR /app
+WORKDIR /var/www/html
 
-# Kopiere die Composer-Dateien
-COPY composer.json composer.lock ./
-
-# Installiere PHP-Abhängigkeiten
-RUN composer install
-
-# Kopiere den Rest des Codes
+# Kopiere den aktuellen Inhalt in das Arbeitsverzeichnis
 COPY . .
 
-CMD ["php", "index.php"]
+# Installiere Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
