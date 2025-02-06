@@ -14,5 +14,5 @@ auf dem handy ist der strich nicht vertikal sondern horianzantal und die button 
 ---------------------------------------------------------------------------
 
 git add .
-git commit -m "Fix: Install PDO drivers for MySQL and PostgreSQL"
+git commit -m "Fix: Change Dockerfile"
 git push origin main

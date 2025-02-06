@@ -16,11 +16,14 @@ RUN a2enmod rewrite
 # Setze das Arbeitsverzeichnis
 WORKDIR /var/www/html
 
-# Kopiere den aktuellen Code in das Container-Image
+# Kopiere Composer aus offiziellem Image
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Kopiere Projektdateien in den Container
 COPY . .
 
-# Installiere Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Installiere Composer-Abhängigkeiten
+RUN composer install --no-dev --optimize-autoloader
 
 # Starte den Apache-Server
 CMD ["apache2-foreground"]
