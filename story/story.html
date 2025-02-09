@@ -101,33 +101,40 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('/api/seasons-story') // Ändere hier die Route
-            .then(response => response.json())
-            .then(seasons => {
-                console.log("Seasons aus API:", seasons);  // Debugging
+       document.addEventListener("DOMContentLoaded", function () {
+    fetch('/api/seasons-story') // Ändere hier die Route
+    .then(response => response.json())
+    .then(seasons => {
+        console.log("Seasons aus API:", seasons);  // Debugging
 
-                const seasonList = document.getElementById('season-list');
-                if (seasons.length === 0) {
-                    seasonList.innerHTML = "<p>Keine Seasons gefunden.</p>";
-                    return;
-                }
+        // Prüfen, ob seasons ein Array ist
+        if (Array.isArray(seasons)) {
+            const seasonList = document.getElementById('season-list');
+            if (seasons.length === 0) {
+                seasonList.innerHTML = "<p>Keine Seasons gefunden.</p>";
+                return;
+            }
 
-                seasons.forEach(season => {
-                    if (!season.season) return; // Falls kein Season-Wert vorhanden ist, ignorieren
+            seasons.forEach(season => {
+                if (!season.season) return; // Falls kein Season-Wert vorhanden ist, ignorieren
 
-                    const btn = document.createElement('a');
-                    btn.className = 'btn';
-                    btn.href = `staffel.html?season=${encodeURIComponent(season.season)}`;
-                    btn.textContent = `Season ${season.season}`;
-                    seasonList.appendChild(btn);
-                });
-            })
-            .catch(error => {
-                console.error('Fehler beim Laden der Seasons:', error);
-                document.getElementById('error-message').style.display = 'block';
+                const btn = document.createElement('a');
+                btn.className = 'btn';
+                btn.href = `staffel.html?season=${encodeURIComponent(season.season)}`;
+                btn.textContent = `Season ${season.season}`;
+                seasonList.appendChild(btn);
             });
-        });
+        } else {
+            console.error("Die Antwort von der API ist kein Array:", seasons);
+            document.getElementById('error-message').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.error('Fehler beim Laden der Seasons:', error);
+        document.getElementById('error-message').style.display = 'block';
+    });
+});
+
     </script>
 </body>
 </html>

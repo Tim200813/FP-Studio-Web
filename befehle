@@ -1,0 +1,8 @@
+1. Änderungen mit git add . hinzufügen.
+2. Änderungen mit git commit -m "Beschreibung der Änderung" committen.
+3. Änderungen mit git push auf GitHub hochladen.
+
+
+git add . hinzufügen.
+git commit -m "Update"
+git push 
