@@ -163,14 +163,16 @@
 
     <script>
         // Funktion zum Laden der Charaktere für die Vorschau
+       // Funktion zum Laden der Charaktere für die Vorschau
         function loadCharacters() {
-            fetch(`/api/characters/${id}`)
+            fetch('/api/characters')  // Wir nehmen an, dass der Endpunkt alle Charaktere liefert
                 .then(response => response.json())
                 .then(data => {
                     displayCharacters(data);
                 })
                 .catch(err => console.error(err));
         }
+
 
         // Funktion zum Anzeigen der Charaktere
         function displayCharacters(characters) {
