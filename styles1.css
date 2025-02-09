@@ -1,0 +1,284 @@
+/* Allgemeine Stile */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.menu {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    color: #ff9800;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.menu:hover {
+    background: rgba(255, 152, 0, 0.8);
+    color: black;
+}
+
+.tabs {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tab-button {
+    padding: 14px 24px;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(135deg, #ff9800, #e65100);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.tab-button:hover {
+    background: linear-gradient(135deg, #e65100, #bf360c);
+    transform: scale(1.05);
+}
+
+.tab-content {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.storyboard-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.storyboard-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.storyboard-item:hover {
+    transform: scale(1.05);
+}
+
+.storyboard-item img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.character-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    transition: transform 0.3s ease;
+}
+
+.character-card:hover {
+    transform: scale(1.05);
+}
+
+.video-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#seekBar {
+    width: 100%;
+    cursor: pointer;
+}
+
+button {
+    background: #ff9800;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #e68900;
+}
+
+.login-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #00ccff;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: #e68900;
+}
+
+.logout-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff3700;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+    background: #e68900;
+}
+
+/* Black Bar */
+.black-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.black-bar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.black-bar a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #00ffcc, #0077ff);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s;
+}
+
+.black-bar a:hover {
+    color: #00ffcc;
+    transform: translateY(-3px);
+}
+
+.black-bar a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Responsive Design für Handys */
+@media screen and (max-width: 768px) {
+    .tabs {
+        display: none; /* Standardmäßig ausgeblendet */
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu {
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        font-size: 22px;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .tab-button {
+        width: 100%;
+        margin: 5px 0;
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    .active {
+        display: block;
+    }
+
+    /* Black Bar für Handys */
+    .black-bar {
+        padding: 10px 15px;
+        gap: 15px;
+    }
+
+    .black-bar a {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .black-bar {
+        padding: 8px 10px;
+        gap: 10px;
+    }
+
+    .black-bar a {
+        font-size: 0.8rem;
+    }
+}

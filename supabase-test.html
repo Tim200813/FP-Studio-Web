@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        // Supabase-Instanz initialisieren
+        const SUPABASE_URL = 'https://rrxjwcgrhlevwdybksgv.supabase.co'; // Ersetze durch deine Supabase-URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyeGp3Y2dyaGxldndkeWJrc2d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg1NDI1MDMsImV4cCI6MjA1NDExODUwM30.M8dAu4fCMpuVF_plJLlGTVmkhuonlVdX2-YQ4zUMtnI'; // Ersetze durch deinen Anon-API-Schlüssel
+        const { createClient } = supabase;
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function fetchStatus() {
+            console.log("Versuche, Daten von Supabase abzurufen..."); // Debugging-Information
+            const { data, error } = await supabase
+                .from('status')
+                .select('*');
+
+            if (error) {
+                console.error('Fehler beim Abrufen der Statusdaten:', error);
+                alert('Fehler: ' + error.message); // Warnung für Fehler
+                return;
+            }
+
+            console.log('Daten von Supabase:', data); // Debugging-Information
+            const statusList = document.getElementById('status-list');
+            statusList.innerHTML = ''; // Leere die Liste
+
+            if (data.length === 0) {
+                const noDataItem = document.createElement('li');
+                noDataItem.textContent = 'Keine Daten gefunden.'; // Wenn keine Daten vorhanden sind
+                statusList.appendChild(noDataItem);
+                return;
+            }
+
+            data.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item.description; // Ersetze 'description' mit dem Spaltennamen in deiner Datenbank
+                statusList.appendChild(listItem);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchStatus();
+        });
+    </script>
+</head>
+<body>
+    <h1>Supabase Test</h1>
+    <ul id="status-list">
+        <!-- Statusdaten werden hier eingefügt -->
+    </ul>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charakter-Suche</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a4a);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh; /* Mindesthöhe für die Seite */
+            position: relative; /* Notwendig für den fixierten Button */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Suchformular */
+        form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            width: 100%; /* Breite auf 100% setzen */
+            max-width: 600px; /* Maximale Breite für große Bildschirme */
+        }
+
+        input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            flex: 1;
+        }
+
+        button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #e84148;
+            transform: scale(1.05);
+        }
+
+        /* Charakter-Container */
+        .character-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Minimale Breite für mobile Geräte */
+            gap: 20px;
+            max-width: 1200px;
+            margin-top: 20px;
+            width: 100%; /* Container auf 100% setzen */
+        }
+
+        .character {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        .character:hover {
+            transform: scale(1.02);
+        }
+
+        .character img {
+            max-width: 200px; 
+            height: auto; 
+            border-radius: 10px;
+            margin-bottom: 15px; 
+        }
+
+        .character-info {
+            text-align: center; 
+        }
+
+        .character-info h3 {
+            font-size: 1.8em;
+            margin: 10px 0; 
+        }
+
+        .character-info p {
+            font-size: 1em;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin: 5px 0; 
+        }
+
+        /* Zurück-Button */
+        .back-button {
+            position: fixed;
+            bottom: 20px; /* Positioniert den Button 20px vom unteren Rand */
+            left: 50%;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Anpassungen */
+        @media (max-width: 768px) {
+            input {
+                font-size: 0.9em; /* Kleinere Schriftgröße für mobile Geräte */
+            }
+
+            button {
+                font-size: 0.9em; /* Kleinere Schriftgröße für mobile Geräte */
+            }
+
+            h1 {
+                font-size: 2em; /* Kleinere Überschrift für mobile Geräte */
+            }
+
+            .character-container {
+                grid-template-columns: 1fr; /* Eine Spalte auf kleinen Bildschirmen */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Charakter-Suche</h1>
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Charaktername eingeben">
+        <button type="submit">Suchen</button>
+    </form>
+
+    <div class="character-container" id="characterContainer"></div>
+
+    <button class="back-button" onclick="window.location.href='../index.html'">Zurück</button>
+
+    <script>
+        // Funktion zum Laden der Charaktere für die Vorschau
+        function loadCharacters() {
+            fetch('http://localhost:3000/api/characters')
+                .then(response => response.json())
+                .then(data => {
+                    displayCharacters(data);
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Funktion zum Anzeigen der Charaktere
+        function displayCharacters(characters) {
+            const container = document.getElementById('characterContainer');
+            container.innerHTML = ''; // Leeren Sie den Container
+
+            characters.forEach(character => {
+                const characterDiv = document.createElement('div');
+                characterDiv.classList.add('character'); // Klasse für Styling hinzufügen
+                characterDiv.innerHTML = `
+                    <img src="${character.image_url || 'default_image_url.jpg'}" alt="${character.name}">
+                    <div class="character-info">
+                        <h3>${character.name}</h3>
+                    </div>
+                `;
+                characterDiv.onclick = () => {
+                    window.location.href = `character_details.html?id=${character.id}`; // Link zur Detailseite
+                };
+                container.appendChild(characterDiv);
+            });
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const searchInput = document.getElementById('searchInput').value.trim();
+
+            if (searchInput === '') {
+                loadCharacters(); // Alle Charaktere laden, wenn das Suchfeld leer ist
+            } else {
+                fetch(`http://localhost:3000/api/search?search=${searchInput}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length === 0) {
+                            document.getElementById('characterContainer').innerHTML = '<p>Kein Charakter gefunden.</p>';
+                        } else {
+                            displayCharacters(data);
+                        }
+                    })
+                    .catch(err => console.error(err));
+            }
+        });
+
+        // Lade die Charaktere beim Laden der Seite
+        window.onload = loadCharacters;
+    </script>
+</body>
+</html>

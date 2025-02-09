@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episoden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            background-image: url('../image/background2.svg');
+            background-attachment: fixed;
+            height: 100vh;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ff4de0;
+        }
+        .episode-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn {
+            background-color: #00d4ff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .btn:hover {
+            background-color: #0097b2;
+            transform: scale(1.05);
+        }
+        .back-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #ff4de0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+        .back-btn:hover {
+            background-color: #ff267e;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="episode-title">Episoden</h1>
+    <div id="episode-buttons" class="episode-buttons"></div>
+    <p><button class="btn" onclick="window.location.href='storyboard.html'">Zurück</button></p>
+
+    <script>
+        async function loadEpisodes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const season = urlParams.get("season");
+
+            if (!season) {
+                alert("Fehlende Staffelnummer!");
+                return;
+            }
+
+            const response = await fetch(`/api/episodes/${season}`);
+            const episodes = await response.json();
+
+            // Setze die Überschrift für die Staffel
+            document.getElementById("episode-title").innerText = `Staffel ${season} - Episoden`;
+
+            episodes.forEach(({ episode, title }) => {
+                let btn = document.createElement("button");
+                btn.className = "btn";  // Hinzufügen der CSS-Klasse
+                btn.innerText = `📺 ${title || "Episode " + episode} (Folge ${episode})`;
+                btn.onclick = () => window.location.href = `folge-storyboard.html?season=${season}&episode=${episode}`;
+                document.getElementById("episode-buttons").appendChild(btn);
+            });
+        }
+
+        loadEpisodes();
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP-Studio</title>
+    <link rel="stylesheet" href="styles1.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js" defer></script>
+    <script defer>
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log("Seite geladen, Supabase wird initialisiert...");
+
+            // Supabase initialisieren
+            const SUPABASE_URL = "https://rrxjwcgrhlevwdybksgv.supabase.co";
+            const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyeGp3Y2dyaGxldndkeWJrc2d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg1NDI1MDMsImV4cCI6MjA1NDExODUwM30.M8dAu4fCMpuVF_plJLlGTVmkhuonlVdX2-YQ4zUMtnI";
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            console.log("Supabase erfolgreich geladen:", supabase);
+
+            // Daten abrufen
+            await fetchNews(supabase);
+            await fetchStatus(supabase);
+        });
+
+        async function fetchNews(supabase) {
+            console.log("Lade News...");
+            let { data: newsItems, error } = await supabase.from('news').select('*');
+
+            if (error) {
+                console.error("Fehler beim Laden der News:", error);
+                return;
+            }
+
+            console.log("News-Daten erfolgreich geladen:", newsItems);
+            const newsList = document.getElementById("news-list");
+            newsList.innerHTML = '';
+
+            newsItems.forEach(news => {
+                const item = document.createElement("div");
+                item.classList.add("news-item");
+                item.innerHTML = `<h3>${news.title}</h3><p>${news.content}</p>`;
+                newsList.appendChild(item);
+            });
+        }
+
+        function toggleMenu() {
+            const tabs = document.querySelector('.tabs');
+            if (tabs.style.display === 'flex') {
+                tabs.style.display = 'none';
+            } else {
+                tabs.style.display = 'flex';
+            }
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        async function fetchStatus(supabase) {
+            console.log("Lade Status...");
+            let { data: statusItems, error } = await supabase.from('status').select('*');
+
+            if (error) {
+                console.error("Fehler beim Laden des Status:", error);
+                return;
+            }
+
+            console.log("Status-Daten erfolgreich geladen:", statusItems);
+            const statusList = document.getElementById("status-list");
+            statusList.innerHTML = '';
+
+            statusItems.forEach(status => {
+                const item = document.createElement("div");
+                item.classList.add("status-item");
+                item.innerHTML = `<h3>${status.title}</h3><p>${status.description}</p>`;
+                statusList.appendChild(item);
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <button class="login-button" onclick="window.location.href='login.html'">Login</button>
+
+    <div class="menu" onclick="toggleMenu()">Menü ☰</div>
+    <div class="tabs">
+        <button class="tab-button" onclick="showTab('news')">Aktuelles</button>
+        <button class="tab-button" onclick="showTab('status')">Status</button>
+        <button class="tab-button" onclick="window.location.href='team.html'">Team</button>
+        <button class="tab-button" onclick="window.location.href='./character/index.html'">Charakter-Wikipedia</button>
+    </div>
+
+    <div id="news" class="tab-content active">
+        <h2>Aktuelles</h2>
+        <div id="news-list">Lade News...</div>
+    </div>
+
+    <div id="status" class="tab-content">
+        <h2>Status</h2>
+        <div id="status-list">Lade Status...</div>
+    </div>
+
+    <div class="black-bar">
+        <a href="main-about-us.html">Kontakte</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="dashboard-kontakt.html">Beauftrage uns</a>
+        <a href="bewerbung.html">Werde Mitglied ↗️</a>
+    </div>
+
+</body>
+</html>

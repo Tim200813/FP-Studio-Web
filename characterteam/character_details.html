@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="characterTitle">Charakterdetails</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a4a);
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .character-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .character-details h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .character-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .not-found {
+            color: red;
+            font-style: italic;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .abilities {
+            margin-top: 20px;
+        }
+
+        .abilities h4 {
+            margin: 10px 0 5px 0;
+        }
+
+        .character-detail-item {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .character-detail-title {
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="character-details" id="characterDetail">
+    <h1 id="characterName">Charaktername</h1>
+    <img id="characterImage" src="https://via.placeholder.com/200" alt="Charakter Bild">
+    
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Biografie:</h2>
+        <div id="characterBiography">Biografie ist nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Stärken:</h2>
+        <div id="characterStrengths">Stärken sind nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Beziehungen:</h2>
+        <div id="characterRelationships">Beziehungen sind nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Alter:</h2>
+        <div id="characterAge">Alter ist nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Herkunft:</h2>
+        <div id="characterOrigin">Herkunft ist nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Wunsch/Ziel:</h2>
+        <div id="characterGoal">Ziel ist nicht vorhanden</div>
+    </div>
+
+    <div class="character-detail-item">
+        <h2 class="character-detail-title">Vorlieben:</h2>
+        <div id="characterPreferences">Vorlieben sind nicht vorhanden</div>
+    </div>
+
+    <div class="abilities">
+        <h2 style="text-align: center;">Fähigkeiten:</h2>
+        <div id="abilitiesContainer">Keine Fähigkeiten vorhanden.</div>
+    </div>
+
+    <div class="button-container">
+        <a href="index.html" class="back-button">Zurück</a>
+    </div>
+</div>
+
+<script>
+    // Funktion zum Laden der Charakterdetails
+    function loadCharacterDetails() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        fetch(`http://localhost:3000/api/characters/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                const character = data.character;
+                const abilities = data.abilities;
+
+                document.getElementById('characterName').innerText = character.name || 'Charaktername nicht vorhanden';
+                document.getElementById('characterImage').src = character.image_url || 'https://via.placeholder.com/200'; // Fallback-URL
+                document.getElementById('characterBiography').innerText = character.biography || 'Biografie ist nicht vorhanden';
+                document.getElementById('characterStrengths').innerText = character.strengths || 'Stärken sind nicht vorhanden';
+                document.getElementById('characterRelationships').innerText = character.relationships || 'Beziehungen sind nicht vorhanden';
+                document.getElementById('characterAge').innerText = character.age || 'Alter ist nicht vorhanden';
+                document.getElementById('characterOrigin').innerText = character.origin || 'Herkunft ist nicht vorhanden';
+                document.getElementById('characterGoal').innerText = character.dreamDesireGoal || 'Ziel ist nicht vorhanden';
+                document.getElementById('characterPreferences').innerText = character.preferencesList || 'Vorlieben sind nicht vorhanden';
+
+                const abilitiesContainer = document.getElementById('abilitiesContainer');
+                if (abilities.length > 0) {
+                    abilitiesContainer.innerHTML = ''; // Inhalt zurücksetzen
+                    abilities.forEach(ability => {
+                        const abilityDiv = document.createElement('div');
+                        abilityDiv.classList.add('character-detail-item');
+                        abilityDiv.innerHTML = `<h2 class="character-detail-title">${ability.ability_name}</h2>
+                                                <div>${ability.description || 'Beschreibung ist nicht vorhanden'}</div>`;
+                        abilitiesContainer.appendChild(abilityDiv);
+                    });
+                } else {
+                    abilitiesContainer.innerText = 'Keine Fähigkeiten vorhanden.';
+                }
+
+                // Setze den Titel des Dokuments
+                document.getElementById('characterTitle').innerText = `${character.name} - Details`;
+            })
+            .catch(err => console.error(err));
+    }
+
+    // Initiales Laden der Charakterdetails
+    loadCharacterDetails();
+</script>
+
+</body>
+</html>

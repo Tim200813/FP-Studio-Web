@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP-Studio-Team</title>
+    <link rel="stylesheet" href="styles1.css">
+    
+    <!-- ✅ Supabase zuerst laden -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <button class="logout-button" onclick="window.location.href='index.html'">Logout</button>
+
+    <div class="menu">Menü ☰</div>
+    <div class="tabs">
+        <button class="tab-button" onclick="showTab('news')">Aktuelles</button>
+        <button class="tab-button" onclick="window.location.href='./story/story.html'">Story</button>
+        <button class="tab-button" onclick="window.location.href='./storyboard/storyboard.html'">Storyboards</button>
+        <button class="tab-button" onclick="showTab('status')">Status</button>
+        <button class="tab-button" onclick="window.location.href='./characterteam/index.html'">Charakter-Wekipedia</button>
+    </div>
+
+    <div id="news" class="tab-content active">
+        <h2>Aktuelles</h2>
+        <div id="news-list"></div>
+    </div>
+
+    <div id="storyboard" class="tab-content">
+        <h2>Storyboards</h2>
+        <div class="storyboard-gallery">
+            <div class="storyboard-item">
+                <img src="./image/02.png" alt="Storyboard 1">
+                <p>Anmerkung: Szene 1, Kampf beginnt</p>
+            </div>
+            <div class="storyboard-item">
+                <img src="./image/02.png" alt="Storyboard 1">
+                <p>Anmerkung: Einführung des Antagonisten</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="story" class="tab-content">
+        <h2>Story</h2>
+        <p>Die Geschichte der Anime-Charaktere wird hier beschrieben.</p>
+        <button onclick="window.location.href='staffel1.html'">Staffel 1</button>
+    </div>
+
+    <div id="status" class="tab-content">
+        <h2>Status</h2>
+        <div id="status-list"></div>
+    </div>
+
+    <div id="characters" class="tab-content">
+        <h2>Character Datenbank</h2>
+        <div class="character-card">
+            <h3>Ryu Takashi</h3>
+            <p>Alter: 25</p>
+            <p>Fähigkeiten: Blitzschnelle Schwertkunst ⚡</p>
+            <p>Hintergrund: Wurde in einer alten Kriegerfamilie geboren...</p>
+        </div>
+        <div class="character-card">
+            <h3>Aiko Himura</h3>
+            <p>Alter: 22</p>
+            <p>Fähigkeiten: Magische Feuerkontrolle 🔥</p>
+            <p>Hintergrund: Entdeckte ihre Fähigkeiten in jungen Jahren...</p>
+        </div>
+    </div>
+
+    <script>
+        let supabase; // Globale Variable für Supabase
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            console.log("Supabase wird initialisiert...");
+
+            // Supabase initialisieren
+            const SUPABASE_URL = "https://rrxjwcgrhlevwdybksgv.supabase.co";
+            const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJyeGp3Y2dyaGxldndkeWJrc2d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg1NDI1MDMsImV4cCI6MjA1NDExODUwM30.M8dAu4fCMpuVF_plJLlGTVmkhuonlVdX2-YQ4zUMtnI"; // Ersetze mit deinem Supabase Schlüssel
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            console.log("Supabase erfolgreich verbunden!");
+
+            // Menü ein-/ausblenden
+            document.querySelector('.menu').addEventListener('click', toggleMenu);
+
+            // Daten laden
+            fetchNews();
+            fetchStatus();
+        });
+
+        // Funktionen zur Menüsteuerung
+        function toggleMenu() {
+            const tabs = document.querySelector('.tabs');
+            tabs.style.display = tabs.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // News abrufen
+        async function fetchNews() {
+            let { data: newsItems, error } = await supabase.from('newsteam').select('*');
+            if (error) {
+                console.error("Fehler beim Laden der News:", error);
+                return;
+            }
+            const newsList = document.getElementById("news-list");
+            newsList.innerHTML = '';
+            newsItems.forEach(news => {
+                const item = document.createElement("div");
+                item.classList.add("news-item");
+                item.innerHTML = `<h3>${news.title}</h3><p>${news.content}</p>`;
+                newsList.appendChild(item);
+            });
+        }
+
+        // Status abrufen
+        async function fetchStatus() {
+            let { data: statusItems, error } = await supabase.from('statusteam').select('*');
+            if (error) {
+                console.error("Fehler beim Laden des Status:", error);
+                return;
+            }
+            const statusList = document.getElementById("status-list");
+            statusList.innerHTML = '';
+            statusItems.forEach(status => {
+                const item = document.createElement("div");
+                item.classList.add("status-item");
+                item.innerHTML = `<h3>${status.title}</h3><p>${status.description}</p>`;
+                statusList.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Story - Seasons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('../image/background.svg');
+            background-attachment: fixed;
+            height: 100vh;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        header {
+            background: rgba(40, 40, 40, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: rgb(204, 64, 255);
+        }
+        .season-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .btn {
+            background-color: rgb(0, 191, 255);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none; /* Damit Links wie Buttons aussehen */
+        }
+        .btn:hover {
+            transform: translateY(-5px);
+            background-color: rgb(255, 26, 53);
+        }
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px; /* genügend Padding für eine angenehme Fläche */
+            background-color: rgb(0, 191, 255);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none; /* Entfernen des Unterstrichs */
+        }
+        .back-button:hover {
+            background-color: rgb(255, 26, 53);
+        }
+        footer {
+            padding: 20px;
+            background: rgba(40, 40, 40, 0.9);
+            color: white;
+            width: 100%;
+            margin-top: auto;
+            border-radius: 10px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        #error-message {
+            margin: 20px 0;
+            color: rgb(255, 0, 0); /* Fehlernachricht in Rot */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Seasons</h1>
+    </header>
+    <p id="error-message" style="display: none;">Fehler beim Laden der Seasons.</p>
+    <div class="season-buttons" id="season-list"></div>
+
+    <a class="back-button" href="../indexteam.html">Zurück zur Hauptseite</a>
+    
+    <footer>
+        <p>&copy; 2025 Anime Story. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/api/seasons-story') // Ändere hier die Route
+            .then(response => response.json())
+            .then(seasons => {
+                console.log("Seasons aus API:", seasons);  // Debugging
+
+                const seasonList = document.getElementById('season-list');
+                if (seasons.length === 0) {
+                    seasonList.innerHTML = "<p>Keine Seasons gefunden.</p>";
+                    return;
+                }
+
+                seasons.forEach(season => {
+                    if (!season.season) return; // Falls kein Season-Wert vorhanden ist, ignorieren
+
+                    const btn = document.createElement('a');
+                    btn.className = 'btn';
+                    btn.href = `staffel.html?season=${encodeURIComponent(season.season)}`;
+                    btn.textContent = `Season ${season.season}`;
+                    seasonList.appendChild(btn);
+                });
+            })
+            .catch(error => {
+                console.error('Fehler beim Laden der Seasons:', error);
+                document.getElementById('error-message').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

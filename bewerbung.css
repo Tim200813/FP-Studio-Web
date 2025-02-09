@@ -1,0 +1,166 @@
+/* Allgemeine Stile */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    background: linear-gradient(90deg, #00ffcc, #0077ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Button-Container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px; /* Abstand zum Back-Button */
+}
+
+/* Buttons */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 250px;
+}
+
+.btn i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.google-btn {
+    background: linear-gradient(90deg, #4285f4, #34a853);
+    color: #ffffff;
+}
+
+.discord-btn {
+    background: linear-gradient(90deg, #7289da, #5865f2);
+    color: #ffffff;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Vertikaler Strich */
+.divider {
+    width: 2px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Back-Button */
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 250px;
+    margin: 0 auto; /* Zentrieren */
+}
+
+.back-btn i {
+    margin-right: 8px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+    margin-top: 60px;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
+
+/* Responsive Design für Handys */
+@media (max-width: 768px) {
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .google-btn {
+        order: 1;
+    }
+
+    .divider {
+        order: 2;
+        width: 100px;  /* Breiter machen für horizontale Darstellung */
+        height: 2px;  /* Dünn, damit es aussieht wie eine Linie */
+        background: rgba(255, 255, 255, 0.2);
+        margin: 10px 0; /* Abstand oben und unten */
+    }
+
+    .discord-btn {
+        order: 3;
+    }
+
+    .back-btn {
+        order: 4;
+        margin-top: 10px; /* Abstand zum Discord-Button */
+    }
+}
+
+
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    .btn i {
+        font-size: 1rem;
+    }
+
+    .back-btn {
+        padding: 10px 20px;
+        font-size: 0.8rem;
+    }
+}

@@ -1,0 +1,145 @@
+/* Allgemeine Einstellungen */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Login Wrapper */
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Login Container */
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.5);
+}
+
+/* Titel */
+h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #00e6e6, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Formular */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Passwortfeld */
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+input[type="password"]:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Einloggen Button */
+button {
+    background: linear-gradient(135deg, #00ffff, #0077ff);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0077ff, #00e6e6);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Fehlermeldung */
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Persönlicher Login Button */
+.login-button {
+    background: linear-gradient(135deg, #ff0077, #ff00ff);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #ff00ff, #ff0077);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7);
+}
+
+/* Responsives Design */
+@media screen and (max-width: 600px) {
+    .login-wrapper {
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    input[type="password"], button, .login-button {
+        font-size: 16px;
+    }
+}
